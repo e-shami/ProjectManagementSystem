@@ -131,3 +131,5 @@ router.post('/:id/teams', function(req, res) {
         }
     });
 });
+
+module.exports = router;
