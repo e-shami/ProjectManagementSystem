@@ -45,10 +45,9 @@ router.post('/signup', function(req, res) {
 
 // POST /users/login
 router.post('/login', passport.authenticate('local'), function(req, res) {
-    var token = authenticate.getToken({username: req.user.username });
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.json({success: true, token: token, status: 'You are successfully logged in!'});
+    res.json({success: true, status: 'You are successfully logged in!'});
 });
 
 // GET /users/logout

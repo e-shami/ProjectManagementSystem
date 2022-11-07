@@ -132,3 +132,142 @@ router.post('/:id/teams', function(req, res) {
         }
     });
 });
+
+
+// PUT /projects/:id/teams/:teamId
+router.put('/:id/teams/:teamId', function(req, res) {
+    Project.findById(req.params.id, function(err, project) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            Team.findByIdAndUpdate(req.params.teamId, req.body, {new: true}, function(err, team) {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.json(team);
+                }
+            });
+        }
+    });
+});
+
+
+// DELETE /projects/:id/teams/:teamId
+router.delete('/:id/teams/:teamId', function(req, res) {
+    Project.findById(req.params.id, function(err, project) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            Team.findByIdAndRemove(req.params.teamId, function(err, team) {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.json(team);
+                }
+            });
+        }
+    });
+});
+
+
+// GET /projects/:id/tasks
+router.get('/:id/tasks', function(req, res) {
+    Project.findById(req.params.id, function(err, project) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            Task.find({_id: {$in: project.tasks}}, function(err, tasks) {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.json(tasks);
+                }
+            });
+        }
+    });
+});
+
+
+// GET /projects/:id/tasks/:taskId
+router.get('/:id/tasks/:taskId', function(req, res) {
+    Project.findById(req.params.id, function(err, project) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            Task.findById(req.params.taskId, function(err, task) {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.json(task);
+                }
+            });
+        }
+
+    });
+});
+
+// POST /projects/:id/tasks
+router.post('/:id/tasks', function(req, res) {
+    Project.findById(req.params.id, function(err, project) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            var task = new Task(req.body);
+            task.save(function(err) {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    project.tasks.push(task);
+                    project.save(function(err) {
+                        if (err) {
+                            res.status(500).send(err);
+                        } else {
+                            res.json(task);
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
+
+// PUT /projects/:id/tasks/:taskId
+router.put('/:id/tasks/:taskId', function(req, res) {
+    Project.findById(req.params.id, function(err, project) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            Task.findByIdAndUpdate(req.params.taskId, req.body, {new: true}, function(err, task) {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.json(task);
+                }
+            });
+        }
+    });
+});
+
+
+// DELETE /projects/:id/tasks/:taskId
+router.delete('/:id/tasks/:taskId', function(req, res) {
+    Project.findById(req.params.id, function(err, project) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            Task.findByIdAndRemove(req.params.taskId, function(err, task) {
+                if (err) {
+                    res.status(500).send(err);
+
+                } else {
+                    res.json(task);
+                }
+            });
+        }
+    });
+});
+
+
+
+module.exports = router;
