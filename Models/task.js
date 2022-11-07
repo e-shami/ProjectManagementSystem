@@ -7,8 +7,7 @@ var TaskSchema = new Schema({
         required: true
     },
     description: {
-        type: String,
-        required: optional
+        type: String
     },
     project: {
         type: Schema.Types.ObjectId,
