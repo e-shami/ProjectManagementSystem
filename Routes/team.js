@@ -1,10 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var Project = require('../models/project');
-const team = require('../models/team');
 var Team = require('../models/team');
-var User = require('../models/user');
 router.use(express.json());
 
 var db = "mongodb://localhost:27017/PMS";
@@ -17,7 +14,7 @@ mongoose.connect(db, { useNewUrlParser: true }, function(err) {
 });
 
 // GET /teams
-router.get('/View', function(req, res) {
+router.get('/', function(req, res) {
     Team.find({}, function(err, team) {
         if (err) {
             res.status(500).send(err);
@@ -26,6 +23,18 @@ router.get('/View', function(req, res) {
         }
     });
 });
+
+// GET /teams/:id
+router.get('/:id', function(req, res) {
+    Team.findById(req.params.id, function(err, team) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(team);
+        }
+    });
+});
+
 
 // POST /teams
 router.post('/', function(req, res) {
@@ -42,18 +51,7 @@ router.post('/', function(req, res) {
 
 // PUT /teams/:id
 router.put('/:id', function(req, res) {
-    Team.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, task) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.json("Done",team);
-        }
-    });
-});
-
-// GET /teams/:id
-router.get('/:id', function(req, res) {
-    Team.findById(req.params.id, function(err, project) {
+    Team.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, team) {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -61,6 +59,8 @@ router.get('/:id', function(req, res) {
         }
     });
 });
+
+
 
 // DELETE /teams/:id
 router.delete('/:id', function(req, res) {
@@ -72,8 +72,6 @@ router.delete('/:id', function(req, res) {
         }
     });
 });
-
-
 
 
 module.exports = router;

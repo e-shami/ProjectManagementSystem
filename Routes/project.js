@@ -73,31 +73,13 @@ router.delete('/:id', function(req, res) {
     });
 });
 
-// GET /projects/:id/teams
-router.get('/:id/teams', function(req, res) {
+// GET /projects/:id/team
+router.get('/:id/team', function(req, res) {
     Project.findById(req.params.id, function(err, project) {
         if (err) {
             res.status(500).send(err);
         } else {
-            Team.find({_id: {$in: project.teams}}, function(err, teams) {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
-                    res.json(teams);
-                }
-            });
-        }
-    });
-});
-
-
-// GET /projects/:id/teams/:teamId
-router.get('/:id/teams/:teamId', function(req, res) {
-    Project.findById(req.params.id, function(err, project) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            Team.findById(req.params.teamId, function(err, team) {
+            Team.findById(project.team, function(err, team) {
                 if (err) {
                     res.status(500).send(err);
                 } else {
@@ -107,68 +89,6 @@ router.get('/:id/teams/:teamId', function(req, res) {
         }
     });
 });
-
-// POST /projects/:id/teams
-router.post('/:id/teams', function(req, res) {
-    Project.findById(req.params.id, function(err, project) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            var team = new Team(req.body);
-            team.save(function(err) {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
-                    project.teams.push(team);
-                    project.save(function(err) {
-                        if (err) {
-                            res.status(500).send(err);
-                        } else {
-                            res.json(team);
-                        }
-                    });
-                }
-            });
-        }
-    });
-});
-
-
-// PUT /projects/:id/teams/:teamId
-router.put('/:id/teams/:teamId', function(req, res) {
-    Project.findById(req.params.id, function(err, project) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            Team.findByIdAndUpdate(req.params.teamId, req.body, {new: true}, function(err, team) {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
-                    res.json(team);
-                }
-            });
-        }
-    });
-});
-
-
-// DELETE /projects/:id/teams/:teamId
-router.delete('/:id/teams/:teamId', function(req, res) {
-    Project.findById(req.params.id, function(err, project) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            Team.findByIdAndRemove(req.params.teamId, function(err, team) {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
-                    res.json(team);
-                }
-            });
-        }
-    });
-});
-
 
 // GET /projects/:id/tasks
 router.get('/:id/tasks', function(req, res) {
@@ -176,7 +96,7 @@ router.get('/:id/tasks', function(req, res) {
         if (err) {
             res.status(500).send(err);
         } else {
-            Task.find({_id: {$in: project.tasks}}, function(err, tasks) {
+            Task.find({project: project._id}, function(err, tasks) {
                 if (err) {
                     res.status(500).send(err);
                 } else {
@@ -186,88 +106,6 @@ router.get('/:id/tasks', function(req, res) {
         }
     });
 });
-
-
-// GET /projects/:id/tasks/:taskId
-router.get('/:id/tasks/:taskId', function(req, res) {
-    Project.findById(req.params.id, function(err, project) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            Task.findById(req.params.taskId, function(err, task) {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
-                    res.json(task);
-                }
-            });
-        }
-
-    });
-});
-
-// POST /projects/:id/tasks
-router.post('/:id/tasks', function(req, res) {
-    Project.findById(req.params.id, function(err, project) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            var task = new Task(req.body);
-            task.save(function(err) {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
-                    project.tasks.push(task);
-                    project.save(function(err) {
-                        if (err) {
-                            res.status(500).send(err);
-                        } else {
-                            res.json(task);
-                        }
-                    });
-                }
-            });
-        }
-    });
-});
-
-
-// PUT /projects/:id/tasks/:taskId
-router.put('/:id/tasks/:taskId', function(req, res) {
-    Project.findById(req.params.id, function(err, project) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            Task.findByIdAndUpdate(req.params.taskId, req.body, {new: true}, function(err, task) {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
-                    res.json(task);
-                }
-            });
-        }
-    });
-});
-
-
-// DELETE /projects/:id/tasks/:taskId
-router.delete('/:id/tasks/:taskId', function(req, res) {
-    Project.findById(req.params.id, function(err, project) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            Task.findByIdAndRemove(req.params.taskId, function(err, task) {
-                if (err) {
-                    res.status(500).send(err);
-
-                } else {
-                    res.json(task);
-                }
-            });
-        }
-    });
-});
-
 
 
 module.exports = router;

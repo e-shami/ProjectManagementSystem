@@ -69,16 +69,15 @@ router.get('/', function(req, res) {
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
+// GET /tasks/:id
+router.get('/:id', function(req, res) {
+    Task.findById(req.params.id, function(err, task) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(task);
+        }
+    });
+});
 
 module.exports=router;

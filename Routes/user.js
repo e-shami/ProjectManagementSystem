@@ -26,6 +26,17 @@ router.get('/', function(req, res) {
     });
 });
 
+// GET /users/:id
+router.get('/:id', function(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(user);
+        }
+    });
+});
+
 // POST /users/signup
 router.post('/signup', function(req, res) {
     User.register(new User({username: req.body.username}), req.body.password, function(err) {
@@ -61,7 +72,30 @@ router.get('/logout', function(req, res, next) {
         err.status = 403;
         next(err);
     }
-}
-);
+});
+
+
+// PUT /users/:id
+router.put('/:id', function(req, res) {
+    User.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, user) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(user);
+        }
+    });
+});
+
+// DELETE /users/:id
+router.delete('/:id', function(req, res) {
+    User.findByIdAndRemove(req.params.id, function(err, user) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(user);
+        }
+    });
+});
+
 
 module.exports = router;

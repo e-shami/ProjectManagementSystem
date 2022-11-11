@@ -16,6 +16,7 @@ app.use('/users', usr);
 app.use('/projects', prj);
 app.use('/tasks',tsk);
 app.use('/teams',tms);
+app.use('/projectManagers',prjMgr);
 
 app.listen(PORT, function() {
     console.log('Server is running on Port:', PORT);
