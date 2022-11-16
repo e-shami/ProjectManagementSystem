@@ -9,7 +9,7 @@ mongoose.connect(db, { useNewUrlParser: true }, function(err) {
     if (err) {
         console.error('Error! ' + err);
     } else {
-        console.log('Connected to mongodb');
+        console.log('Team routes Connected to mongodb');
     }
 });
 

@@ -6,6 +6,7 @@ const usr = require('./Routes/user');
 const prj = require('./Routes/project');
 const tsk= require('./Routes/task');
 const tms = require('./Routes/team');
+const prjMgr = require('./Routes/projectManager');
 
 const PORT = 3000;
 const app = express();
