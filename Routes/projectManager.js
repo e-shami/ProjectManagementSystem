@@ -6,8 +6,7 @@ var mongoose = require('mongoose');
 var Project = require('../models/project');
 var Team = require('../models/team');
 var User = require('../models/user');
-var Task= require('../Models/task')
-
+var Task = require('../models/task');
 
 router.use(bodyParser.json());
 
@@ -16,7 +15,7 @@ mongoose.connect(db, { useNewUrlParser: true }, function(err) {
     if (err) {
         console.error('Error! ' + err);
     } else {
-        console.log('Project manager routes Connected to mongodb');
+        console.log('Connected to mongodb');
     }
 });
 
@@ -125,16 +124,16 @@ router.post('/users', function(req, res) {
 });
 
 // PUT /teams/:id/users/:id
-router.put('/teams/:tid/users/:uid', function(req, res) {
-    Team.findById(req.params.tid, function(err, team) {
+router.put('/teams/:id/users/:id', function(req, res) {
+    Team.findById(req.params.id, function(err, team) {
         if (err) {
             res.status(500).send('Error occured' + err);
         } else {
-            User.findById(req.params.uid, function(err, usr) {
+            User.findById(req.params.id, function(err, user) {
                 if (err) {
                     res.status(500).send('Error occured' + err);
                 } else {
-                    team.members.push(usr);
+                    team.users.push(user);
                     team.save(function(err) {
                         if (err) {
                             res.status(500).send('Error occured' + err);

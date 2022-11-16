@@ -2,6 +2,7 @@ var router = require('express').Router();
 var User = require('../models/user');
 var passport = require('passport');
 const bodyParser = require('body-parser');
+var authenticate = require('authenticate');
 router.use(bodyParser.json());
 
 const db = "mongodb://localhost:27017/PMS";
